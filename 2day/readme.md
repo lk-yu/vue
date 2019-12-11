@@ -26,4 +26,26 @@
 2. v-if与v-show的区别
 	* v-if控制元素是否渲染到页面
 	* v-show控制元素是否显示(已经渲染到了页面)
+
 **v-show的原理:控制元素样式是否显示display:none**
+
+3. 循环结构
+	* v-for遍历数组
+
+```javascript
+	<li v-for='item in list'>{{item}}</li>
+	<li v-for='(item,index) in list'>{{item}}+'---'+{{index}}</li>
+```
+
+**key的作用:帮助Vue区分不同的元素,从而提高性能,自定义加上id的唯一属性,进行标记.**
+
+```javascript
+	<li :key='item.id' v-for='(item,index) in list'>{{item}} + '---' + {{index}}</li>
+```
+4. 循环结构
+```javascript
+	* v-for遍历对象
+	<div v-for='(value,key,index) in object'></div>
+	* v-if和v-for结合使用
+	<div v-if='value==12' v-for='(value,key,index) in object'></div>
+```
