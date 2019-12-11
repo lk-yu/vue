@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 想要在这个输入框输入 v-focus 就可以让表单自动获取焦点 -->
+			<input type="text" v-focus>
+		</div>
+		<hr />
+		<div id="app1">
+			<!-- 想要在这个输入框输入 v-focus 就可以让表单自动获取焦点 -->
+			<input type="text" v-focus>
+		</div>
+		<script src="js/vue.js"></script>
+		<script>
+			//注册一个全局自定义指令 v-focus
+			// Vue.directive("focus", {
+			// 	//当被绑定的元素插入到DOM 中时……
+			// 	inserted: function(el) {
+			// 		//聚焦元素
+			// 		el.focus();
+			// 	}
+			// });
+			const vm = new Vue({
+				el: '#app',
+				data: {}
+			})
+			const vm1 = new Vue({
+				el: '#app1',
+				data: {},
+				directives: {
+					focus: {
+						//指令的定义
+						inserted: function(el) {
+							//聚焦元素
+							el.focus();
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

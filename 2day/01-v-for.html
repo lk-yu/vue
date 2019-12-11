@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-	</head>
-	<body>
-		<div id="app">
-			<ul>
-				<li v-for="(v,i) in list" :key="v.id">{{v.id}} --- {{v.name}} --- {{i}}</li>
-			</ul>
-		</div>
-		<script src="js/vue.js"></script>
-		<script>
-			const vm = new Vue({
-				el:'#app',
-				data:{
-					list:[
-						{id:1,name:'张三'},
-						{id:2,name:'赵四'},
-						{id:3,name:'王五'},
-						{id:4,name:'赵六'},
-						{id:5,name:'田七'},
-					]
-				}
-			})
-		</script>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="(v,i) in list" :key="v.id">
+          {{v.id}} --- {{v.name}} --- {{i}}
+        </li>
+      </ul>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          list: [
+            { id: 1, name: "张三" },
+            { id: 2, name: "赵四" },
+            { id: 3, name: "王五" },
+            { id: 4, name: "赵六" },
+            { id: 5, name: "田七" }
+          ]
+        }
+      });
+    </script>
+  </body>
 </html>
