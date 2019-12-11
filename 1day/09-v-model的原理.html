@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<div>{{msg}}</div>
+			<!-- 
+				input标签里面有一个属性叫 value value是用于显示用户所输入的数据
+				属性绑定 绑定的value属性
+				事件绑定 
+				能input标签进行事件绑定 oninput
+			 -->
+			<input type="text" :value="msg" @input="changeMsg"/>
+			<script src="js/vue.js"></script>
+			<script>
+				const vm = new Vue({
+					el:'#app',
+					data:{
+						msg:'hello'
+					},
+					methods:{
+						changeMsg(e){
+							//我们通过e.target 可以获取到input标签 input标签身上有一个value的属性
+							this.msg = e.target.value
+						}
+					}
+				})
+			</script>
+		</div>
+	</body>
+</html>

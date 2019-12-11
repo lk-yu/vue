@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-on:click.delete="clearContent" v-model="username">
+		</div>
+		<script src="js/vue.js"></script>
+		<script>
+			const vm = new Vue({
+				el:'#app',
+				data:{
+					username:'',
+					pwd:''
+				},
+				methods:{
+					clearContent(){
+						this.username = '';
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

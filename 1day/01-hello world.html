@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<div>{{name}}</div>
+			<h2>{{age}}</h2>
+			<h4>{{1+2}}</h4>
+			<div>{{name + '----' + 123}}</div>
+		</div>
+		<script type="text/javascript" src="js/vue.js">
+
+		</script>
+		<script>
+			//实例化对象
+			let vm = new Vue({
+				el: '#app', //element 要管理的容器
+				data: {
+					name: "张三",
+					age: 18,
+				}
+			});
+		</script>
+	</body>
+</html>
