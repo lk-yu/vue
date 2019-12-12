@@ -127,3 +127,28 @@ computed:{
 
 ![](img/侦听器.jpg)
 
+**5.6过滤器**
+
+2. 自定义过滤器
+
+```javascript
+Vue.filter('过滤器名称',function(value){
+	//过滤器业务逻辑
+})
+```
+
+3. 过滤器的使用
+
+```javascript
+<div>{{msg | upper}}</div>
+<div>{{msg | upper | loer}}</div>
+<div v-bind:id='id' | formatId></div>
+```
+
+4. 局部过滤器
+
+```javascript
+filters:{
+	capitalize:function(){}
+}
+```

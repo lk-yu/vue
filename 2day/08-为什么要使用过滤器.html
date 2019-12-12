@@ -6,20 +6,26 @@
 	</head>
 	<body>
 		<div id="app">
-			<div>{{time | dateFormat}}</div>
+			<div>{{time | dateFormat('Y-M-D')}}</div>
 		</div>
 		<script src="js/vue.js"></script>
 		<script>
 			//定义一个全局过滤器
-			Vue.filter('dateFormat',function(val){
-				// console.log(val)
+			Vue.filter('dateFormat',function(val,g){
 				let y = val.getFullYear();
-				let m = val.getFullYear();
-				let t = val.getFullYear();
-				let h = val.getFullYear();
-				let f = val.getFullYear();
-				let s = val.getFullYear();
-				console.log(val)
+				let m = (val.getMonth()+1+'').padStart(2,0);
+				let t = (val.getDate()+'').padStart(2,0);
+				let h = (val.getHours()+'').padStart(2,0);
+				let f = (val.getMinutes()+'').padStart(2,0);
+				let s = (val.getSeconds()+'').padStart(2,0);
+				let str = '';
+				if(g == 'Y-M-D'){
+					str = `${y}-${m}-${t}`;
+				}else if(g == 'Y-M-D H:I:S'){
+					str = `${y}-${m}-${t} ${h}:${f}:${s}`;
+				}
+				console.log(str);
+				return str;
 			})
 			const vm = new Vue({
 				el:'#app',
