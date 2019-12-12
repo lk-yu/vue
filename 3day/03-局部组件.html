@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<coma></coma>
+			<button-count></button-count>
+		</div>
+		<script src="js/vue.js"></script>
+		<script>
+			// 全局组件
+			Vue.component('button-count', {
+				//data里面是保存的数据 要求它必须是一个函数
+				data() {
+					return {
+						count: 0
+					}
+				},
+				//组件的模板
+				template: `
+					<div class='box'>
+						<div>{{count}}</div>
+						<button @click="count++">点击我</button>
+				`
+			})
+
+			// 局部组件
+			let coma = {
+				data() {
+					return {
+						msg: 'hello'
+					}
+				},
+				template: `
+					<button>{{msg}}</button>
+				`
+			}
+			let vm = new Vue({
+				el: '#app',
+				components: {
+					coma
+				}
+			})
+		</script>
+	</body>
+</html>

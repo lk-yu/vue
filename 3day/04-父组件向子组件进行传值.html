@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<div>{{pmsg}}</div>
+			<my-son title='来自父组件的值' :content="pmsg"></my-son>
+			<my-son :title='ptitle' content="hello"></my-son>
+		</div>
+		<script src="js/vue.js"></script>
+		<script>
+			Vue.component('my-son',{
+				//组件里面所需要的数据 在定义的组件注意中 data必须是一个函数 需要返回一个对象
+				//在子组件的模板内得到父组件身上的数据 属性绑定 绑定在父组件模板内 子组件名上 在子组件中 定义一个props这个属性 他的值是一个数组 可以传递多个父级内容
+				props:['title','content'],
+				data: function(){
+					return {
+						msg:'子组件本身的数据'
+					}
+				},
+				template:`<div>{{msg + "----" + title + "-----" + content}}</div>`
+			});
+			let vm = new Vue({
+				el:'#app',
+				data:{
+					pmsg:'父组件中内容',
+					ptitle:'动态绑定属性'
+				}
+			});
+		</script>
+	</body>
+</html>

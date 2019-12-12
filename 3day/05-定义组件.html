@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script src="js/vue.js"></script>
+		<script>
+			//全局组件
+			Vue.component('my-con',{
+				//组件里面所需要的数据 在定义的组件注意中data必须是一个函数 需要返回一个对象
+				data(){
+					return {
+						msg:'hello',
+						count:0
+					}
+				},
+				template:`
+					<div>
+						<input type="text" v-model="msg">
+						<div>{{count}}</div>
+						<button @click="add">增加</button>
+					</div>
+				`,
+				methods:{
+					add(){
+						this.count++;
+					}
+				},
+			})
+			let com = {
+				template:`
+					<div>我是局部组件</div>
+				`
+			}
+			//实例化一个vm实例
+			let vm = new Vue({
+				el:'#app',
+				components:{
+					com
+				}
+			})
+		</script>
+	</body>
+</html>
