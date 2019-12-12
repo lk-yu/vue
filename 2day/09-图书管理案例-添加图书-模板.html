@@ -45,7 +45,7 @@
 							<label for="id">
 								编号：
 							</label>
-							<input type="text" id="id" v-model="id">
+							<input type="text" id="id" v-model="id" :disabled="flag">
 							<label for="name">
 								名称：
 							</label>
@@ -64,7 +64,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(item,index) in books">
+						<tr v-for="(item,index) in books" :key="item.id">
 							<td>{{++index}}</td>
 							<td>{{item.name}}</td>
 							<td>{{item.date | dateFormat}}</td>
@@ -99,6 +99,7 @@
 				data: {
 					id: '',
 					name: '',
+					flag: false,
 					books: [{
 						id: 1,
 						name: '三国演义',
@@ -119,29 +120,50 @@
 				},
 				methods: {
 					addBook() {
-						let data = {
-							id: this.id,
-							name: this.name,
-							date: new Date()
-						};
 						if (this.id == '' || this.name == '') {
 							alert('请输入完整内容!')
 							return false
 						}
-						this.books.push(data);
-						this.id=this.name='';
+						//flag值为true走if句,完成book编辑
+						if (this.flag) {
+							//编辑图书
+							//根据id值找到要修改的图书项
+							// console.log(this.id)
+							this.books.some(item => {
+								if (item.id == this.id) {
+									item.name = this.name
+									return true;
+								}
+							})
+						} else {
+							var data = {
+								id: this.id,
+								name: this.name,
+								date: new Date()
+							};
+							this.books.push(data);
+
+						}
+						this.id = this.name = '';
+						this.flag = false;
 					},
-					delBook(key){
+					delBook(key) {
 						// console.log(key)
 						// 通过findindex来找到数组每项的索引
 						let index = this.books.findIndex(item => item.id === key)
 						// console.log(index)
 						// splice方法进行删除数组元素
-						this.books.splice(index,1);
+						this.books.splice(index, 1);
 					},
-					modifyBook(key){
+					modifyBook(key) {
 						// console.log(key)
-						console.log(item.id)
+						// 通过filter()方法遍历数组拿到要修改的那项
+						let newArr = this.books.filter(item => item.id === key);
+						// console.log(newArr[0].name);
+						this.id = key,
+							this.name = newArr[0].name;
+						// 将this.flag的值 设置为true
+						this.flag = true;
 					}
 				}
 			});
