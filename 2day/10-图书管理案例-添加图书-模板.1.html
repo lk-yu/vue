@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<style type="text/css">
+			.grid {
+				margin: auto;
+				width: 530px;
+				text-align: center;
+			}
+
+			.grid table {
+				border-top: 1px solid #C2D89A;
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			.grid th,
+			td {
+				padding: 10;
+				border: 1px dashed #F3DCAB;
+				height: 35px;
+				line-height: 35px;
+			}
+
+			.grid th {
+				background-color: #F3DCAB;
+			}
+
+			.grid .book {
+				padding-bottom: 10px;
+				padding-top: 5px;
+				background-color: #F3DCAB;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="grid">
+				<div>
+					<h1>图书管理</h1>
+					<div class="book">
+						<div>
+							<label for="id">
+								编号：
+							</label>
+							<input type="text" id="id" v-model="id" v-bind:disabled=flag>
+							<label for="name">
+								名称：
+							</label>
+							<input type="text" id="name" v-model="name">
+							<button @click="add">提交</button>
+						</div>
+					</div>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>名称</th>
+							<th>时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(item,index) in books" :key="item.id">
+							<td>{{++index}}</td>
+							<td>{{item.name}}</td>
+							<td>{{item.date | dateFormat}}</td>
+							<td>
+								<a href="javascript:;" @click="modify(item.id)">修改</a>
+								<span>|</span>
+								<a href="javascript:;" @click="del(item.id)">删除</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript">
+			/*
+      图书管理-添加图书
+    */
+			Vue.filter('dateFormat', function(val) {
+				let y = val.getFullYear();
+				let m = (val.getMonth() + 1 + '').padStart(2, 0);
+				let t = (val.getDate() + '').padStart(2, 0);
+				let h = (val.getHours() + '').padStart(2, 0);
+				let f = (val.getMinutes() + '').padStart(2, 0);
+				let s = (val.getSeconds() + '').padStart(2, 0);
+				let str = '';
+				str = `${y}-${m}-${t} ${h}:${f}:${s}`;
+				return str;
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					id: '',
+					name: '',
+					flag: false,
+					books: [{
+						id: 1,
+						name: '三国演义',
+						date: new Date()
+					}, {
+						id: 2,
+						name: '水浒传',
+						date: new Date()
+					}, {
+						id: 3,
+						name: '红楼梦',
+						date: new Date()
+					}, {
+						id: 4,
+						name: '西游记',
+						date: new Date()
+					}]
+				},
+				methods: {
+					add() {
+						if (this.id == '' || this.name == '') {
+							alert('请输入完整内容!')
+							return false;
+						}
+						//根据flag状态开取决于是需要添加还是修改
+						if (this.flag) {
+							//flag为true,disabled就会为true,就会走这里,就会禁用id表单框,就为修改
+							//根据some方法遍历数组
+							this.books.some(i=>{
+								//如果遍历到哪项id和id表单框的id相符,就说明找到了那项
+								if (i.id == this.id) {
+									//然后进行name表单框的内容赋值给找到的这项的挂载的name
+									i.name = this.name;
+									//some句里面的return停止是true
+									return true;
+								}
+							})
+						} else{
+							//flag为flase,disabled就会为flase,就会走这里,就会不会禁用表单框,就为添加
+							let data = {
+								id: this.id,
+								name: this.name,
+								date: new Date()
+							};
+							this.books.push(data)
+						}
+						this.id = this.name = '';
+						this.flag = false;
+					},
+					del(data) {
+						//findIndex()方法返回数组中满足提供的测试函数的符合标准的第一个元素的索引,找不到满足所有要求的。否则返回-1
+						//通过findIndex找到要删除那一项
+						let index = this.books.findIndex(i => i.id == data)
+						//通过splice删除数组元素
+						//第一个参数要删除那一项下标索引,第二个参数要删除项个数
+						this.books.splice(index,1)
+					},
+					modify(data){
+						//通过filter方法遍历数组拿到要修改的那一项数据
+						let arr = this.books.filter(i=>i.id == data)
+						//拿到数据后进行对表框赋值
+						this.id = arr[0].id,
+						this.name = arr[0].name,
+						this.flag = true
+					}
+				},
+			});
+		</script>
+	</body>
+</html>

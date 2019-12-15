@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 我们把组件当作为双边标签来使用 在html中的双边标签 是不是可以让里面放置内容 -->
+			<son>
+				<div>abcd</div>
+			</son>
+		</div>
+		<script src="js/vue.js"></script>
+		<script>
+			//注册全局组件
+			//当鼠标点击 确定按钮时 将子组件的sdata传递给父组件 并且显示出来
+			 //子向父 事件绑定
+			 //$emit('事件名')
+			Vue.component('son',{
+				data(){
+					return {
+						sdata:'子数据'
+					}
+				},
+				template:`
+					<div>
+						{{sdata}}
+						<slot></slot>
+					</div>
+				`
+			})
+			const vm = new Vue({
+				data:{
+					pdata:'',
+				},
+				el:'#app',
+				el:'#app',
+			})
+		</script>
+	</body>
+</html>
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<p>{{pdata}}</p>
+			<son @trigger='handle($event)'></son>
+		</div>
+		<script src="js/vue.js"></script>
+		<script>
+			//注册全局组件
+			//当鼠标点击 确定按钮时 将子组件的sdata传递给父组件 并且显示出来
+			 //子向父 事件绑定
+			 //$emit('事件名')
+			Vue.component('son',{
+				data(){
+					return {
+						sdata:'子数据'
+					}
+				},
+				template:`
+					<button @click="$emit('trigger',sdata)">确定</button>
+				`
+			})
+			const vm = new Vue({
+				data:{
+					pdata:'',
+				},
+				el:'#app',
+				methods:{
+					handle(data){
+						console.log(data)
+						this.pdata = data
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

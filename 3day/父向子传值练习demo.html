@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<son :dmsg="pmsg" :content='title'></son>
+		</div>
+		<script src="js/vue.js"></script>
+		<script>
+			Vue.component('son',{
+				props:['dmsg','content'],
+				data:function(){
+					return {
+						msg:'儿子本身的数据内容'
+					}
+				},
+				template:`
+					<div>{{msg + "---" + dmsg + "----" + content}}</div>
+				`
+			})
+			let vm = new Vue({
+				el:'#app',
+				data:{
+					pmsg:'父亲本身的数据内容',
+					title:'哈哈哈哈哈'
+				}
+			})
+		</script>
+	</body>
+</html>
