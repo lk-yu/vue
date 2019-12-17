@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<script src="../js/axios.js"></script>
+	</head>
+	<body>
+		<script>
+			// //await 它只能出现在 被async修饰的函数中
+			// async function fn() {
+			// 	//对象解构 返回值是一个对象 对象里面有一个属性 叫 data 就是服务器返回的数据
+			// 	const res = await axios.get("http://localhost:3000/data2");
+			// 	console.log(res.data);
+			// }
+			// fn();
+			
+			// async function fn(){
+			// 	const {data:res} = await axios.get('http://localhost:3000/axios',{
+			// 		params:{
+			// 			id:789
+			// 		}
+			// 	});
+			// 	console.log(res);
+			// }
+			// fn();
+			
+			async function fn(){
+				const {data:res} = await axios.post('http://localhost:3000/axios',{
+						uname:'张三',
+						pwd:123456
+				});
+				console.log(res);
+			}
+			fn();
+		</script>
+	</body>
+</html>

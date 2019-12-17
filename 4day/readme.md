@@ -100,6 +100,49 @@
 		2.返回普通值
 			* 返回的普通值会直接传递给下一个then,通过then参数中函数的参数接收该值
 ### 接口调用-fetch用法
+
+#### 3.1 fetch概述
+
+		1. 
+
+#### 3.2 fetch API基本用法
+	
+```javascript
+fetch('/url传输地址').then(data=>{
+	return data.text();
+	//text()方法食欲fetchAPI的一部分,他返回一个Promise实例对象
+}).then(ret=>{
+	//这里才能得到的才是最终的数据
+	console.log(ret);
+})
+```
+#### 3.3 常用配置选项
+
+		1. 常用配置选项
+			* method(String):
+		2. 响应数据格式
+			* text():将返回体处理成字符串类型
+			* json():返回结果好JSON.parseText()一样
 ### 接口调用-axios用法
+
+#### 4.1 axios 的基本特性
+
+**axios是一个基于Promise用于浏览器和node.js的HTTP客户端.**
+
+它具有以下特征:
+* 支持浏览器和node.js
+* 支持promise
+* 能拦截请求和响应
+* 自动转换JSON数据
+
+#### axios的基本用法
+
+* axios.get('/adata')
+	.then(ret=>{
+		// data属性名称是固定的,用于获取后台响应的数据
+		console.log(ret.data)
+	})
+	
+
 ### 接口调用-async/await用法
 ### 基于接口的案例

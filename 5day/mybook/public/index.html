@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+      .grid {
+        margin: auto;
+        width: 530px;
+        text-align: center;
+      }
+      .grid table {
+        border-top: 1px solid #c2d89a;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .grid th,
+      td {
+        padding: 10;
+        border: 1px dashed #f3dcab;
+        height: 35px;
+        line-height: 35px;
+      }
+      .grid th {
+        background-color: #f3dcab;
+      }
+      .grid .book {
+        padding-bottom: 10px;
+        padding-top: 5px;
+        background-color: #f3dcab;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="grid">
+        <div>
+          <h1>图书管理</h1>
+          <div class="book">
+            <div>
+              <label for="id">
+                编号：
+              </label>
+              <input type="text" id="id" v-model="id" disabled="false" />
+              <label for="name">
+                名称：
+              </label>
+              <input type="text" id="name" v-model="name" />
+              <button @click="handle">提交</button>
+            </div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>名称</th>
+              <th>时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr :key="item.id" v-for="(item,index) in books">
+              <td>{{ index + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.date | dateFormat }}</td>
+              <td>
+                <a href="" @click.prevent="toEdit(item.id)">修改</a>
+                <span>|</span>
+                <a href="" @click.prevent="toDel(item.id)">删除</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/axios.js"></script>
+    <script type="text/javascript">
+      axios.defaults.baseURL = "http://127.0.0.1:3000";
+
+      // 全局过滤器
+      Vue.filter("dateFormat", function(originVal) {
+        const dt = new Date(originVal);
+
+        const y = dt.getFullYear();
+        const m = (dt.getMonth() + 1 + "").padStart(2, "0");
+        const d = (dt.getDate() + "").padStart(2, "0");
+
+        const hh = (dt.getHours() + "").padStart(2, "0");
+        const mm = (dt.getMinutes() + "").padStart(2, "0");
+        const ss = (dt.getSeconds() + "").padStart(2, "0");
+
+        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+      });
+
+      /*
+      图书管理-添加图书
+    */
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          flag: false, // 表示不禁用
+          id: "",
+          name: "",
+          books: []
+        },
+        methods: {
+          // 添加读书  因为添加和修改是使用同一个按钮  我们需要知道什么情况是添加 什么情况下是修改
+          // 可能根据 flag的值 来判断 如果它的是值 false 就表示添加功能  如果为true 就表示它是修改功能
+          handle: async function() {
+            //
+            if (this.flag) {
+              // 修改功能   some 查找数组里面是否有指定的元素 如果有 遍历就不再往下执行 返回true| false
+              // this.books.some(item => {
+              //   if (item.id == this.id) {
+              //     item.name = this.name;
+              //     // 循环执行 return true
+              //     return true;
+              //   }
+              // });
+
+              const { data: res } = await axios.put(`books/${this.id}`, {
+                name: this.name
+              });
+
+              // console.log(res);
+
+              if (res.status == 200) {
+                this.getBooksData();
+                // console.log("ok");
+              }
+
+              this.flag = false;
+            } else {
+              // 添加功能
+              if (this.name.length == 0) {
+                console.log(`不能为空`);
+                return;
+              }
+              // 添加图书
+              // 发送请求
+              const res = await axios.post(`books`, {
+                name: this.name
+              });
+
+              // console.log(res.status);
+
+              if (res.status == 200) {
+                this.getBooksData();
+                // console.log("ok");
+              }
+            }
+            // 清空表单
+            this.id = "";
+            this.name = "";
+          },
+          // 编辑图书
+          async toEdit(id) {
+            // const book = this.books.filter(item => item.id == id);
+            // // console.log(book); 把它们添加到输入框中
+            // this.id = id;
+            // this.name = book[0].name;
+            const { data: res } = await axios.get(`books/${id}`);
+
+            //  console.log(res)
+            this.id = res.id;
+            this.name = res.name;
+            // 修改flag的值  想要将id的输入框 设置为 禁用效果
+            this.flag = true;
+          },
+          async toDel(key) {
+            // console.log(key)
+            // this.books.splice(key, 1);
+            // 向服务器发请求
+            if (window.confirm("你舍得我吗?")) {
+              const res = await axios.delete(`books/${key}`);
+
+              if (res.status == 200) {
+                this.getBooksData();
+              }
+            }
+          },
+          async getBooksData() {
+            // 向服务器发请求 需要把这个数据 给到我们data里面定义的一个属性叫books  我们需要操作data里面的属性 生命周期函数  最早在那里created
+            const { data: res } = await axios.get(`books`);
+            // console.log(res);
+            this.books = res;
+          }
+        },
+        mounted() {
+          this.getBooksData();
+        }
+      });
+    </script>
+  </body>
+</html>
